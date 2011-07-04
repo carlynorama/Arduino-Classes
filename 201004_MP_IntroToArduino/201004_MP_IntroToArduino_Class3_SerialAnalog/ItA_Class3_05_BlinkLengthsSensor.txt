@@ -1,0 +1,70 @@
+/*
+Intro to Arduino @ Machine Project April 2010
+Carlyn Maw
+
+Uses our non-delay blinking code with an analogRead to determine blink
+lengths.
+*/
+
+//Step 1 Define Pins
+const int analogReadPin = 0;
+const int ledPin = 11;
+
+
+//Step 2 - value holders
+int sensorValue = 0; 
+
+//LED TIMING VARIABLES 
+int blinkOnPeriod = 1000;  //---------------Defined by sensorValue later...
+int blinkState;
+long blinkFlipTime;
+
+//GENERAL TIMING VARIABLES 
+long lastMillis= 0;
+long currentMillis = 0;
+
+//Step 3 - Setup Loop
+void setup() {
+  //3a - no input declare
+  //3b - start serial
+  Serial.begin(9600);
+  pinMode(ledPin, OUTPUT);
+
+
+}
+
+
+void loop() {      
+  //Check the Time
+  lastMillis = currentMillis; // dumps the time from the last loop into previous holder
+  currentMillis = millis();  // refreshes the time
+
+  //Poll the environment
+  sensorValue = analogRead(analogReadPin);
+
+
+  //Do something about it. 
+  Serial.println(sensorValue);
+  blinkOnPeriod = sensorValue;
+  blinkIt(ledPin, blinkOnPeriod);
+} 
+
+
+//--------------------------------------------------------------- END MAIN LOOP
+
+
+///----------------------------------------------------------------  BLINK IT.
+
+void blinkIt(int myLED, int myBlinkPeriod) {
+  if ((myBlinkPeriod) < (currentMillis- blinkFlipTime)) {
+    blinkState ? blinkState=false : blinkState=true;
+    blinkFlipTime = currentMillis;       
+  }
+  //(moving this line outside the if is what makes it update every time)
+  digitalWrite(myLED,blinkState); 
+}
+
+
+
+
+

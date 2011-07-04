@@ -1,0 +1,47 @@
+/*
+ * Stop Light
+ * This code will blink a red and then a yellow and 
+ * then a green LED repeatedly at their own delay times... 
+ * if those are the color LEDS you have wired up
+ *
+ * Created by Carlyn Maw
+ * December 2009
+ *
+ * CopyLeft - Non-Comerical Use with Attribution
+ */
+
+int redPin = 11;
+int yellowPin = 10;
+int greenPin = 9;
+
+int onPeriod = 900;
+
+
+void setup()                    // run once, when the sketch starts
+{
+  pinMode(redPin, OUTPUT);      // sets the digital pin as output
+  pinMode(yellowPin, OUTPUT);      // sets the digital pin as output
+  pinMode(greenPin, OUTPUT);      // sets the digital pin as output
+  
+  digitalWrite(redPin, LOW);    // sets the LED off
+  digitalWrite(yellowPin, LOW);    // sets the LED off
+  digitalWrite(greenPin, LOW);    // sets the LED off
+      
+}
+
+void loop()                     // run over and over again
+{
+
+  digitalWrite(redPin, HIGH);   // sets the LED on
+  delay(600);                  // waits for a second
+  digitalWrite(redPin, LOW);    // sets the LED off
+
+  digitalWrite(yellowPin, HIGH);   // sets the LED on
+  delay(300);                  // waits for a second
+  digitalWrite(yellowPin, LOW);    // sets the LED off
+  
+  digitalWrite(greenPin, HIGH);   // sets the LED on
+  delay(900);                  // waits for a second
+  digitalWrite(greenPin, LOW);    // sets the LED off
+  
+}

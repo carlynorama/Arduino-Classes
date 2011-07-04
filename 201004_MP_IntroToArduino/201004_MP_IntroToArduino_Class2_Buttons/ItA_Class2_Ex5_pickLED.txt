@@ -1,0 +1,82 @@
+/*
+Code for The Intro To Arduino Class Two 
+ 
+ April 8 2010
+ Carlyn Maw
+ 
+ Button Code: When the Button is On an LED is on, 
+ The toggle swtich determines which one. Uses a pickLED function.
+ 
+ */
+
+//STEP 1  Define Pins
+//Pin Constants
+const int pushButtonPin = 2;   //the push button
+const int toggleButtonPin = 3;  // the switch
+const int ledPinOne = 11;    // the green LED
+const int ledPinTwo = 12;    // the red LED
+
+//Step 2 Holders for things being tracked
+//State Holder Constants for inputs
+int pushButtonState = 0;  
+//------------CHANGED, ONE IS MOVED
+
+//LED Holders
+int currentLED;
+int otherLED;
+
+
+void setup() {
+  //Step 3  set pin modes
+  pinMode(pushButtonPin, INPUT);
+  pinMode(toggleButtonPin, INPUT);
+  pinMode(ledPinOne, OUTPUT);
+  pinMode(ledPinTwo, OUTPUT);
+
+}
+
+void loop() {
+
+  //Step 4 Get Inputs
+  pushButtonState = digitalRead(pushButtonPin);
+  //------------CHANGED, ONE IS MOVED
+  //Step 5, pick your LED
+  pickLED();                    //NEW, replaces loop
+
+  // Step 6: Evaluate push button state and light accordingly
+  if (pushButtonState == true) { 
+    digitalWrite(currentLED, HIGH);
+    digitalWrite(otherLED, LOW);
+  } 
+  else {
+    // turn everybody off
+    digitalWrite(ledPinOne, LOW);
+    digitalWrite(ledPinTwo, LOW);
+  }
+}
+
+
+//-------------------------------------------- END MAIN LOOP
+
+//-------------------------------------- LED SWITCHING
+
+
+
+void pickLED() {            // ----------------------------NEW FUNCTION
+  int toggleButtonState;   // declares a LOCAL variable, MOVED  
+
+  toggleButtonState = digitalRead(toggleButtonPin); //  ---- MOVED from main loop
+
+  if (toggleButtonState == true) {                 //  --also moved from main loop
+    currentLED = ledPinOne;
+    otherLED = ledPinTwo;
+  } 
+  else {
+    currentLED = ledPinTwo;
+    otherLED = ledPinOne;
+  }
+}
+
+
+
+

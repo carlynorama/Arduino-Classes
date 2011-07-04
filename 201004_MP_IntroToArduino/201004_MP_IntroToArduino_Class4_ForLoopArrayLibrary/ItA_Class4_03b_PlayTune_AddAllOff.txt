@@ -1,0 +1,132 @@
+/*
+Intro to Arduino @ Machine Project April 2010
+ Carlyn Maw
+ 
+ This code uses 5 LEDs to "play a tune" that is 22 "notes" long.
+ Loops indefinately with no pause. No way to control speed, etc.
+ Updated so you can light the same pin twice in a row and see it
+ because you can turn everyone off... white space.
+ Remember music analogy when controlling outputs... 
+ What is your envelope: attack? sustain? decay? 
+ */
+
+const int analogReadPin = 0;
+
+//------------------------------------------------------- NEW
+// like dots and dashes in Morese Code example
+// these will become time periods in ms when used. 
+const int note = 1000;
+const int h_note = note/2;
+const int q_note = note/4;
+
+//length of tune in terms of number of notes, NOT TIME
+//will use this later in for loops
+const int tuneLength = 25;
+
+//list of LEDs in sequence, these values are dependent on how your circuit is wired.
+//how might you improve that? 
+int ledSequence[tuneLength] =  {
+  9,   
+  10, 
+  11,  
+  9,  
+  10,  
+  11,  
+  9,  
+  10,  
+  11,  
+  9,  
+  13,  
+  9,  
+  12,  
+  9,  
+  11,  
+  9, 
+  10, 
+  13, 
+  12, 
+  11, 
+  10,
+  9,
+  0, 
+  9,
+  0};
+
+//The amount of time each LED is lit in the IDENTICAL order as the array above.
+int timeSequence[tuneLength] =   {
+  q_note, 
+  q_note, 
+  q_note, 
+  q_note, 
+  q_note, 
+  q_note, 
+  q_note, 
+  q_note, 
+  q_note, 
+  h_note, 
+  q_note, 
+  h_note, 
+  q_note, 
+  h_note, 
+  q_note, 
+  h_note, 
+  q_note, 
+  h_note, 
+  q_note,
+  q_note,
+  q_note,
+  q_note,  
+  q_note,
+  q_note,
+  q_note};
+
+//------------------------------------------------------- END NEW
+
+
+//Step 3 - Setup Loop
+void setup() {
+  Serial.begin(9600);
+
+  for (int l = 9; l <= 13 ; l++) {
+    pinMode(l, OUTPUT);
+  }
+}
+
+
+void loop() {      
+
+  //No environment to look at
+
+  //Play the tune.    
+  for (int b = 0;  b < tuneLength ; b ++) {
+    // if ledSequence[b] is a value greater than 0... 
+    // light the number pin equal to the value retrieved.
+    // keep in mind this means you CAN'T USE PIN 0!!!
+    if (ledSequence[b] > 0) { // --------------------NEW
+      digitalWrite(ledSequence[b], HIGH);
+      delay(timeSequence[b]);
+      digitalWrite(ledSequence[b], LOW);
+    } 
+    else { //------------------------------------- NEW
+    //else turn everybody off...
+      for (int l = 9; l <= 13 ; l++) {
+        digitalWrite(l, LOW);
+      }
+       //for the amount of time of the value retrieved from the array
+        delay(timeSequence[b]);
+    }
+  }
+
+} 
+
+//--------------------------------------------------------------- END MAIN LOOP
+
+
+
+
+
+
+
+
+
+

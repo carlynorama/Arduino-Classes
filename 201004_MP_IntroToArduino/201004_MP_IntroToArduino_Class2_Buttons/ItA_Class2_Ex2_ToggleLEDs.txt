@@ -1,0 +1,51 @@
+/*
+Code for The Intro To Arduino Class Two
+ Button Code: When the Button is on the Green LED is on, 
+ When the Button is off the red LED is on.
+ 
+ April 8
+ Carlyn Maw
+ Steal this code. Everyone does it.
+ 
+ */
+//STEP 1  Define Pins
+//Pin Constants
+const int pushButtonPin = 2;   //the push button --- CHANGED
+const int ledPinOne = 11;    // the green LED
+const int ledPinTwo = 12;    // the red LED ------------ NEW
+
+//Step 2
+//State Holder Constants for inputs
+int pushButtonState = 0; //------------------------- CHANGED
+
+
+void setup() {
+  //Step 3  set pin modes
+  pinMode(pushButtonPin, INPUT);  //--------------------- CHANGED
+  pinMode(ledPinOne, OUTPUT);  //------------------------ CHANGED
+  pinMode(ledPinTwo, OUTPUT);  //---------------------------- NEW
+
+}
+
+void loop() {
+
+  //Step 4 - get your input
+  pushButtonState = digitalRead(pushButtonPin);  //------ CHANGED
+
+
+  //Step 5 Evalutate the button and change LEDS accordingly. 
+  if (pushButtonState == true) { 
+    
+    digitalWrite(ledPinOne, HIGH);
+    digitalWrite(ledPinTwo, LOW); //---------------------------- NEW
+ 
+  } 
+  else {
+    // turn everybody off
+    digitalWrite(ledPinOne, LOW);  
+    digitalWrite(ledPinTwo, HIGH); //---------------------------- NEW
+  }
+}
+
+
+

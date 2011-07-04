@@ -1,0 +1,59 @@
+/*
+Intro to Arduino @ Machine Project April 2010
+ Carlyn Maw
+ 
+Code blinks 3 LEDs in order. 
+The sensor determines the blink length, but it only checks once at the start
+of the pattern.
+ */
+
+//Step 1 Define Pins
+const int analogReadPin = 0;
+
+// just declare
+//int myLeds[3];   
+
+//declare and instanciate at once - array will be set at a length of 3
+// these are the numbers for pins that the LEDs are attached to.
+int myLeds[] = {
+  10, 11, 12};  //------------------------ NEW
+
+//Step 2 - value holders
+int sensorValue = 0; 
+int rangedSensorValue = 0;
+
+//Step 3 - Setup Loop
+void setup() {
+  Serial.begin(9600);
+
+  //All the LEDs set to outputs in one go!
+   //have to have l start at 0 b/c you are stepping through an array and
+  //arrays start at arrayName[0]
+  for (int l = 0; l < 3 ; l++) {
+    pinMode(myLeds[l], OUTPUT);
+  }
+}
+
+
+void loop() {      
+
+  //Poll the environment
+  
+  sensorValue = analogRead(analogReadPin);
+  
+  //Do something about it.
+  
+  //have to have b start at 0 b/c you are stepping through an array and
+  //arrays start at arrayName[0], same as above.
+  for (int b = 0;  b < 3 ; b ++) {  
+    digitalWrite(myLeds[b], HIGH);
+    delay(sensorValue);
+    digitalWrite(myLeds[b], LOW);
+    delay(sensorValue);
+  }
+
+} 
+
+
+//--------------------------------------------------------------- END MAIN LOOP
+

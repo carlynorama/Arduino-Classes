@@ -1,0 +1,79 @@
+/*
+Code for The Intro To Arduino Class Two 
+
+ April 8 2010
+ Carlyn Maw
+
+ Sends a blink out when the button is pressed.
+ Will stop blinking when released b/c it can hear the change now.
+ 
+ */
+
+
+//STEP 1 Define Pins
+//Pin Constants
+const int pushButtonPin = 2;   //the push button
+const int ledPinOne = 11;    // the green LED
+//-----------------------------CHANGED: Removed extra switch & LED Variables
+//-----------------------------CHANGED: (No SOS Stuff Either)
+
+//Step 2 Holders for things being tracked
+//State Holder Constants for inputs
+int pushButtonState = 0;
+
+//-----------------------------CHANGED: LED Holders Removed
+//-----------------------------CHANGED: (No SOS Stuff Either)
+
+
+//TIMING VARIABLES ------------------------- Both NEW for Step 6
+long lastMillis= 0;
+long currentMillis = 0;
+
+// LED ONE TIMING VARIABLES ------------- All also NEW for Step 6
+int ledOneOnPeriod = 500;
+int ledOneState;
+long ledOneFlipTime;
+
+
+
+
+void setup() {
+  //Step 3  set pin modes
+  pinMode(pushButtonPin, INPUT);
+  pinMode(ledPinOne, OUTPUT);
+  //--------------------------CHANGED: Removed extra switch & LED Initializations
+
+
+}
+
+void loop() {
+  //Timing check for Step 6  ---------------------------------NEW
+  lastMillis = currentMillis; // dumps the time from the last loop into previous holder
+  currentMillis = millis();  // refreshes time constant
+  
+
+  //Step 4 - get the input
+  pushButtonState = digitalRead(pushButtonPin);
+
+  //Step 5 Evaluate push button state
+  if (pushButtonState == true) { 
+    // STEP 6 BLINK LED  ------------------------------ START NEW
+    if ((ledOneOnPeriod) < (currentMillis- ledOneFlipTime)) {
+        ledOneState ? ledOneState=false : ledOneState=true;
+        ledOneFlipTime = currentMillis;
+        digitalWrite(ledPinOne,ledOneState);
+    }  
+        // STEP 6 BLINK LED  ----------------------------- END NEW
+  } 
+  else {
+    // turn it off and reset if push button is false
+    //Needs ALLLLL of this. Do you remember why?
+    digitalWrite(ledPinOne, LOW);   // this is old
+    ledOneState = false; //NEW
+    ledOneFlipTime = currentMillis - ledOneOnPeriod; //NEW
+  }
+}
+
+
+//-------------------------------------------- END MAIN LOOP
+

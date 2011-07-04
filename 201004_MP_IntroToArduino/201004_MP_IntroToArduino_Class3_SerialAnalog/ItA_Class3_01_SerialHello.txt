@@ -1,0 +1,33 @@
+/*
+Intro to Arduino @ Machine Project April 2010
+Carlyn Maw
+
+Don't for get the example under Examples > Communication > ASCIITable
+*/
+
+//Add with Version B
+int sendMe = 46;
+
+void setup() {
+    Serial.begin(9600);
+}
+
+void loop() {
+  
+  /*
+  //Version A  
+  Serial.print(46);
+  
+  //Version B
+  Serial.println(SendMe);
+  
+  */
+    
+  //Version C  
+  //in order to "concatinate" or assmble a message from parts
+  //you can send a series of .print statements ending in a .println
+  Serial.print("The variable sendMe equals: ");
+  Serial.println(sendMe);
+}
+
+

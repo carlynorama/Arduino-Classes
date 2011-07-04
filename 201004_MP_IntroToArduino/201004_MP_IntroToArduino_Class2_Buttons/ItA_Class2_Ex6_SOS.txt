@@ -1,0 +1,146 @@
+/*
+Code for The Intro To Arduino Class Two 
+
+ April 8 2010
+ Carlyn Maw
+
+ Sends an SOS out on a pin once when button is pressed.
+ Which LED is determined by switch
+ 
+ */
+
+
+//STEP 1 Define Pins
+//Pin Constants
+const int pushButtonPin = 2;   //the push button
+const int toggleButtonPin = 3;  // the switch
+const int ledPinOne = 11;    // the green LED
+const int ledPinTwo = 12;    // the red LED
+
+//Step 2 Holders for things being tracked
+//State Holder Constants for inputs
+int pushButtonState = 0;
+
+//LED Holders
+int currentLED;
+int otherLED;
+
+
+//SOS Timing  (part of Step 7)
+const int dit = 200;           //--------------------- NEW
+const int dah = 3*dit;         //--------------------- NEW
+const int letterSpace = dit;   //--------------------- NEW
+const int wordSpace = 7*dit;   //--------------------- NEW
+
+
+void setup() {
+  //Step 3  set pin modes
+  pinMode(pushButtonPin, INPUT);
+  pinMode(toggleButtonPin, INPUT);
+  pinMode(ledPinOne, OUTPUT);
+  pinMode(ledPinTwo, OUTPUT);
+
+}
+
+void loop() {
+
+  //Step 4 - get the input
+  pushButtonState = digitalRead(pushButtonPin);
+
+  //Step 5 Evaluate push button
+  if (pushButtonState == true) { 
+    //Step 6 evaluate toggle
+     pickLED();           // ------------------- MOVED (more like nested if ex. now.)
+     //Step 7 Send SOS on LED
+     //PASSING A PARAMTER TO THE LOCAL VARIABLE OF THE CALLED FUNCTION.
+    sendSOS(currentLED);  // -------------------- NEW
+    digitalWrite(otherLED, LOW);
+  } 
+  else {
+    // turn everybody off is push button is false
+    digitalWrite(ledPinOne, LOW);
+    digitalWrite(ledPinTwo, LOW);
+  }
+}
+
+
+//-------------------------------------------- END MAIN LOOP
+
+//-------------------------------------- LED SWITCHING
+
+void pickLED() {
+  int toggleButtonState;
+  
+  toggleButtonState = digitalRead(toggleButtonPin);
+  if (toggleButtonState == true) {
+    currentLED = ledPinOne;
+    otherLED = ledPinTwo;
+  } 
+  else {
+    currentLED = ledPinTwo;
+    otherLED = ledPinOne;
+  }
+}
+
+//Step 7 con't ------------------------------------------ALL THE BELOW IS NEW
+// different than class 1 examples b/c they have local variables.
+// makes them more portable. can use the same name if different ones if you
+// want b/c they are all only relevant to their own functions.
+// -----------------------------------------------------  MESSAGE
+void sendSOS(int myLED)                     
+{
+  ///------------------------------------------------- SOS
+writeS(myLED);
+writeO(myLED);
+writeS(myLED);
+  
+  ///------------------------------------------------- PAUSE
+
+writeWordSpace(myLED); 
+}
+
+
+//------------------------------------------ grammar primatives
+
+void writeDash(int myDashLED){
+  digitalWrite(myDashLED, HIGH);   // sets the LED on
+  delay(dah);                  // waits for a second  
+  digitalWrite(myDashLED, LOW);    // sets the LED off
+  delay(dit);  
+}
+
+void writeDot(int myDotLED){
+  digitalWrite(myDotLED, HIGH);   // sets the LED on
+  delay(dit);                  // waits  
+  digitalWrite(myDotLED, LOW);    // sets the LED off
+  delay(dit);  
+}
+
+
+void writeWordSpace(int myWSLED){  
+  digitalWrite(myWSLED, LOW);    // sets the LED off
+  delay(wordSpace);  
+}
+
+void writeLetterSpace(int myLED) {
+  digitalWrite(myLED, LOW);    // sets the LED off
+  delay(letterSpace);   
+}
+
+//--------------------------------------------------- LETTERS
+  ///------------------------------------------------- S
+void writeS(int myLED) {
+  writeDash(myLED);
+  writeDash(myLED);
+  writeDash(myLED);
+  writeLetterSpace(myLED);
+}
+  
+  ///------------------------------------------------- O
+
+void writeO(int myLED) {  
+writeDot(myLED);
+writeDot(myLED);
+writeDot(myLED);
+writeLetterSpace(myLED);
+}

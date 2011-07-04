@@ -1,0 +1,149 @@
+/*
+Code for The Intro To Arduino Class Two 
+ 
+ April 8 2010
+ Carlyn Maw
+ 
+ Sends a blink out when the button is pressed. Will keep blinking
+ until is pressed again. b/c it can hear the change now.
+ Wil also change which LED is being blinked mid stream.
+ 
+ */
+
+
+//STEP 1 Define Pins
+//Pin Constants
+const int pushButtonPin = 2;    //the push button
+const int toggleButtonPin = 3;  //the switch
+const int ledPinOne = 11;       // the green LED
+const int ledPinTwo =  12;      // the red LED
+
+//Step 2 Holders for things being tracked
+//State Holder Constants for inputs
+int pushButtonState = 0;
+int lastPushButtonState = 0;          //-----------------NEW
+int runFlag = 0;                      //-----------------NEW
+
+int currentLED;
+int otherLED;
+
+//TIMING VARIABLES 
+long lastMillis= 0;
+long currentMillis = 0;
+
+//GENERIC LED TIMING VARIABLES 
+int blinkOnPeriod = 1000;
+int blinkState;
+long blinkFlipTime;
+
+
+
+
+void setup() {
+  //-------------------------- RETURNED Seitch and second LED
+  pinMode(pushButtonPin, INPUT);
+  pinMode(toggleButtonPin, INPUT);
+  pinMode(ledPinOne, OUTPUT);
+  pinMode(ledPinTwo, OUTPUT);
+
+  //runFlag = true; // VERSION C part-2
+}
+
+void loop() {
+  //Step 4 - Time Save Last & Check New
+  lastMillis = currentMillis; // dumps the time from the last loop into previous holder
+  currentMillis = millis();  // refreshes the time
+
+
+  //Step 5 - Button Save Last & Check New---------------------------------- NEW
+  lastPushButtonState = pushButtonState;  // dumps the buttpn State from the last loop into previous holder
+  pushButtonState = digitalRead(pushButtonPin); // refreshes the button state
+
+ //Step 6, figure out if you should run or not.
+/*
+  //Version A
+  //runFlag = pushButtonState;
+
+
+  //VERSION B
+  // Doesn't work for this code, would for SOS trigger
+  if (pushButtonState != lastPushButtonState) {
+    runFlag = true;
+  }
+  else {
+    runFlag = false;
+  }
+
+  //VERSION C- part 1
+  if (pushButtonState != lastPushButtonState) {
+    runFlag ? runFlag=false : runFlag=true;
+  }
+
+*/                                                                    
+
+  //VERSION D (dont forget to recomment C-part 2)
+  //two conditions joined by a boolean opperator for AND
+  //on press (pushButtonState == false would be on release)
+  if (pushButtonState != lastPushButtonState && pushButtonState == true) {
+    runFlag ? runFlag=false : runFlag=true;
+  }
+
+//Hopefully this remider picture will help. The if will true where there are *'s
+/*
+         *---------------         *---------------                                                       
+         |              |         |              |                                         
+         |              |         |              |                                         
+         |              |         |              |                                          
+         |              |         |              |                                         
+_________|              |_________|              |__________ etc.                                                          
+
+*/ 
+
+
+  //Then the usual suspects, but with the runFlag rather than the 
+  //buttonState variable.
+  if (runFlag == HIGH) {      //------------------------------ CHANGED!
+    //Step 6 pick your LED
+    pickLED(); 
+    blinkIt(currentLED);
+    digitalWrite(otherLED, LOW);
+  } 
+  else {
+    digitalWrite(ledPinOne, LOW); 
+    digitalWrite(ledPinTwo, LOW);
+    blinkState = false;           
+    blinkFlipTime = currentMillis - blinkOnPeriod;
+  }
+}
+
+
+//-------------------------------------------- END MAIN LOOP
+
+// ------------------------------------------------  LED SWITCHING
+void pickLED() {
+  int toggleButtonState = digitalRead(toggleButtonPin);
+  if (toggleButtonState == HIGH) {
+    currentLED = ledPinOne;
+    otherLED = ledPinTwo;
+  } 
+  else {
+    currentLED = ledPinTwo;
+    otherLED = ledPinOne;
+  }
+}
+
+
+///----------------------------------------------  BLINK IT.-- I'M CHANGED!!
+
+void blinkIt(int myLED) {
+  if ((blinkOnPeriod) < (currentMillis- blinkFlipTime)) {
+    blinkState ? blinkState=false : blinkState=true;
+    blinkFlipTime = currentMillis;       
+  }
+  //(moving this line outside the if is what makes it update every time)
+  digitalWrite(myLED,blinkState); 
+}
+
+
+
+

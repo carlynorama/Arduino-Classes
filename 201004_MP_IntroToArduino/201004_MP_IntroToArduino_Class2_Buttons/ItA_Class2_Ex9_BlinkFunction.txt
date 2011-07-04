@@ -1,0 +1,104 @@
+/*
+Code for The Intro To Arduino Class Two 
+ 
+ April 8 2010
+ Carlyn Maw
+ 
+ Sends a blink out when the button is pressed.
+ Will stop blinking when released b/c it can hear the change now.
+ Wil also change which LED is being blinked mid stream.
+ 
+ */
+
+
+//STEP 1 Define Pins
+//Pin Constants
+const int pushButtonPin = 2;    //the push button
+const int toggleButtonPin = 3;  // ------------- RETURNED
+const int ledPinOne = 11;    // the green LED
+const int ledPinTwo =  12;      // ------------- RETURNED
+
+//Step 2 Holders for things being tracked
+//State Holder Constants for inputs
+int pushButtonState = 0;
+
+//-----------------------------RETURNED: LED Holders
+int currentLED;
+int otherLED;
+
+//TIMING VARIABLES 
+long lastMillis= 0;
+long currentMillis = 0;
+
+//GENERIC LED TIMING VARIABLES ------------ THESE ARE A CHANGE
+int blinkOnPeriod = 1000;
+int blinkState;
+long blinkFlipTime;
+
+
+
+
+void setup() {
+  //-------------------------- RETURNED Seitch and second LED
+  pinMode(pushButtonPin, INPUT);
+  pinMode(toggleButtonPin, INPUT);
+  pinMode(ledPinOne, OUTPUT);
+  pinMode(ledPinTwo, OUTPUT);
+
+
+
+}
+
+void loop() {
+  //Timing check
+  lastMillis = currentMillis; // dumps the time from the last loop into previous holder
+  currentMillis = millis();  // refreshes time constant
+
+
+  //Step 4 - get the input
+  pushButtonState = digitalRead(pushButtonPin);
+
+  //Step 5 Evaluate push button state
+  if (pushButtonState == HIGH) {  
+    pickLED();  // remember me!
+    blinkIt(currentLED); // like SOS, it gets a parameter passed to it of any
+                         // LED we put inside the parens.
+    digitalWrite(otherLED, LOW);
+  } 
+  else {
+    digitalWrite(ledPinOne, LOW);  //everyone low
+    digitalWrite(ledPinTwo, LOW);
+    blinkState = false;            // timing function reset. Covers both.
+    blinkFlipTime = currentMillis - blinkOnPeriod;
+  }
+}
+
+
+//-------------------------------------------- END MAIN LOOP
+
+// ------------------------------------------------  LED SWITCHING
+void pickLED() {
+  int toggleButtonState = digitalRead(toggleButtonPin);
+  if (toggleButtonState == HIGH) {
+    currentLED = ledPinOne;
+    otherLED = ledPinTwo;
+  } 
+  else {
+    currentLED = ledPinTwo;
+    otherLED = ledPinOne;
+  }
+}
+
+
+///----------------------------------------------  BLINK IT.-- I'M NEW!!
+
+void blinkIt(int myLED) {
+  if ((blinkOnPeriod) < (currentMillis- blinkFlipTime)) {
+    blinkState ? blinkState=false : blinkState=true;
+    blinkFlipTime = currentMillis;       
+  }
+    //(moving this line outside the if is what makes it update every time)
+    digitalWrite(myLED,blinkState); 
+}
+
+

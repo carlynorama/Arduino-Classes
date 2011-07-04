@@ -1,0 +1,58 @@
+/*
+Intro to Arduino @ Machine Project April 2010
+ Carlyn Maw
+ 
+4 swtiches determine the fate of 4 leds - direct relationship, compare to class 2 ex 1
+ */
+ 
+//Step 1: Who are your pins?
+const int myLedsLength = 4;
+const int myLedPins[myLedsLength] = {
+  9,10,11,12};
+
+const int mySwitchLength = 4;
+const int mySwitchPins[mySwitchLength] = {
+  2,3,4,5};
+  
+//Step 2: Container Variables 
+int mySwitchState[mySwitchLength];
+
+//Step 3: Set Up
+void setup(){
+  
+  //leds as outputs
+  for (int l = 0; l < myLedsLength ; l++) {
+    pinMode(myLedPins[l], OUTPUT);
+  }
+
+  //switches as inputs
+  for (int l = 0; l < mySwitchLength ; l++) {
+    pinMode(mySwitchPins[l], INPUT);
+    mySwitchState[l] = 0;
+  }
+  
+  //Serial for debuging. 
+  Serial.begin(9600);
+}
+
+void loop() {
+  
+ //Read the pins, commented out debug statements help us know they are
+ //working the way they should...
+ 
+ // Serial.println("This Round:");
+  for (int s = 0; s < mySwitchLength; s++) {
+    mySwitchState[s] = digitalRead(mySwitchPins[s]);
+   // Serial.print(s);
+  //  Serial.print(": ");
+  //  Serial.println(mySwitchState[s]);
+  }
+  
+  //and now light the LEDs depending on thier values. 
+   for (int l = 0; l < mySwitchLength; l++) {
+    digitalWrite(myLedPins[l], mySwitchState[l]);
+  }
+}
+
+
+

@@ -1,0 +1,67 @@
+/*
+Intro to Arduino @ Machine Project April 2010
+Carlyn Maw
+
+Code blinks 1 LED 3 times and then the second other 3 times. 
+The sensor determines the blink length, but it only checks once at the start
+of the pattern.
+*/
+
+//Step 1 Define Pins
+const int analogReadPin = 0;
+const int ledPinOne = 10;
+const int ledPinTwo = 11;
+
+//Step 2 - value holders
+int sensorValue = 0; 
+int rangedSensorValue = 0;
+
+//Step 3 - Setup Loop
+void setup() {
+  Serial.begin(9600);
+  pinMode(ledPinOne, OUTPUT);
+  pinMode(ledPinTwo, OUTPUT);
+
+
+}
+
+
+void loop() {      
+
+  //Poll the environment
+  sensorValue = analogRead(analogReadPin);
+  
+  
+  //Do something about it.
+  
+  //Both these loops run the exact same number of times - 3
+  
+  //it is common practice to keep the for loop 
+  //counter variable local by defining it within the statement
+  
+  //b counts 0, 1, 2 then stops
+  for (int b = 0;  b < 3 ; b ++) {
+    digitalWrite(ledPinOne, HIGH);
+    delay(sensorValue);
+    digitalWrite(ledPinOne, LOW);
+    delay(sensorValue);
+  }
+
+  //x counts 1, 2, 3 then stops.
+  for (int x = 1;  x <= 3 ; x ++) {
+    digitalWrite(ledPinTwo, HIGH);
+    delay(sensorValue);
+    digitalWrite(ledPinTwo, LOW);
+    delay(sensorValue);
+  }
+
+} 
+
+
+//--------------------------------------------------------------- END MAIN LOOP
+
+
+
+
+
+

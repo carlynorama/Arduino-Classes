@@ -1,0 +1,76 @@
+/*
+Code for The Intro To Arduino Class Two 
+
+ April 8 2010
+ Carlyn Maw
+
+ Button Code: When the Button is On an LED is on, 
+ The toggle swtich determines which one. Uses Nested If Statements.
+ 
+ */
+ 
+//STEP 1  Define Pins
+//Pin Constants
+const int pushButtonPin = 2;   //the push button
+const int ledPinOne = 11;    // the green LED
+const int ledPinTwo = 12;    // the red LED ------------ NEW
+
+//Step 2
+//State Holder Constants for inputs
+int pushButtonState = 0; //------------------------- CHANGED
+int toggleButtonState = 0;  //-------------------------- NEW
+
+
+void setup() {
+  //Step 3  set pin modes
+  pinMode(pushButtonPin, INPUT);  //--------------------- CHANGED
+  pinMode(toggleButtonPin, INPUT); //------------------------ NEW
+  pinMode(ledPinOne, OUTPUT);  //------------------------ CHANGED
+  pinMode(ledPinTwo, OUTPUT);  //---------------------------- NEW
+
+}
+
+void loop() {
+
+  //Step 4 - get your inputs
+  pushButtonState = digitalRead(pushButtonPin);  //------ CHANGED
+  toggleButtonState = digitalRead(toggleButtonPin); //--- NEW
+
+
+  //Step 5 Evalutate the Buttons and Change LEDS accordingly.
+       /*
+     A reminder of what we're trying to do that I hope helps
+     
+     
+       PB     |         1        |          0        | 
+     -------------------------------------------------          
+       TS  1  | LED1: 1, LED2: 0 |  LED1: 0, LED2: 0 |
+          ----------------                                                             
+           0  | LED1: 0, LED2: 1 |  LED1: 0, LED2: 0 |
+     */
+  
+
+  if (pushButtonState == true) { 
+ // turn someone on, someone off depending on the toggle switch
+ 
+   //This Section is just like the if statement from code ex 2,
+   //but it is based on the toggle swtich rather than just the
+   //pushbutton.
+    if (toggleButtonState == true) { //---------------------------- NEW
+          digitalWrite(ledPinOne, HIGH);
+          digitalWrite(ledPinTwo, LOW);
+    } else {
+          digitalWrite(ledPinOne, LOW);
+          digitalWrite(ledPinTwo, HIGH);      
+    }
+ 
+  }                                   //---------------------------- NEW
+  else {                              //---------------------------- NEW
+    // turn everybody off
+    digitalWrite(ledPinOne, LOW);     //---------------------------- NEW
+    digitalWrite(ledPinTwo, LOW);     //---------------------------- NEW
+  }                                   //---------------------------- NEW
+}
+
+
+

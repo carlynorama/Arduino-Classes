@@ -1,0 +1,72 @@
+/*
+Intro to Arduino @ Machine Project April 2010
+ Carlyn Maw
+ 
+3 sensors determine the fate of 3 leds - direct relationship, compare to class 3 ex 9
+ */
+
+//Step 1: Who are your pins
+const int myLedsLength = 3;
+const int myLeds[myLedsLength] = {11, 10, 9};
+
+const int mySensorsLength = 3;
+const int mySensors[mySensorsLength] = {0,1,2}; // throws error if non matching
+
+//Step 2: What are your holding variables?
+int mySensorsValue[mySensorsLength];  //will hold all the sensor data
+int mySensorsMax[mySensorsLength] = {0, 1023, 978};  //customized Max for different sesnors
+int mySensorsMin[mySensorsLength]= {1023, 0. 50};  //customized Min for different sesnors
+
+
+//Step 3: Setup Loop
+void setup() {
+  Serial.begin(9600);
+
+  for (int l = 0; l < myLedsLength ; l++) {
+    pinMode(myLeds[l], OUTPUT);
+  }
+}
+
+
+void loop() {      
+
+    //Debug statements help you fin you min/max for each sensor.
+    //Serial.println("This Round");
+   for (int s = 0; s < mySensorsLength ; s++) {
+    mySensorsValue[s] = analogRead(mySensors[s]);
+    //Serial.print(mySensors[s]);
+    //Serial.print(": ");
+    //Serial.println(mySensorsValue[s]);
+  }
+  
+    for (int l = 0; l < myLedsLength ; l++) {           
+    
+    //create a ranged value 
+    
+    //just a bunch of potentiomenters
+    //int rangedValue = map(mySensorsValue[l], 0, 1023, 0, 255);
+    
+    //All different sensors  
+    int rangedValue = map(mySensorsValue[l], mySensorsMin[l], mySensorsMax[l], 0, 255);
+    
+    //Serial.println(rangedValue);
+    
+    //write to the LED analog pins the brightness. 
+    analogWrite(myLeds[l], rangedValue);
+  } 
+
+} 
+
+
+//--------------------------------------------------------------- END MAIN LOOP
+
+
+
+
+
+
+
+
+
+
+

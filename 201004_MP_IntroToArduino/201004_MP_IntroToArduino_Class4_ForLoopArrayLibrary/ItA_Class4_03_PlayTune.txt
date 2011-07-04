@@ -1,0 +1,113 @@
+/*
+Intro to Arduino @ Machine Project April 2010
+Carlyn Maw
+
+This code uses 5 LEDs to "play a tune" that is 22 "notes" long.
+Loops indefinately with no pause. No way to control speed, etc.
+
+*/
+
+const int analogReadPin = 0;
+
+//------------------------------------------------------- NEW
+// like dots and dashes in Morese Code example
+// these will become time periods in ms when used. 
+const int note = 1000;
+const int h_note = note/2;
+const int q_note = note/4;
+
+//length of tune in terms of number of notes, NOT TIME
+//must be a constant since arrays can't change size.
+//will use this later in for loops
+const int tuneLength = 22;
+
+//list of LEDs in sequence, these values are dependent on how your circuit is wired.
+//how might you improve that? 
+int ledSequence[tuneLength] =  {
+  9,   
+  10, 
+  11,  
+  9,  
+  10,  
+  11,  
+  9,  
+  10,  
+  11,  
+  9,  
+  13,  
+  9,  
+  12,  
+  9,  
+  11,  
+  9, 
+  10, 
+  13, 
+  12, 
+  11, 
+  10, 
+  9};
+
+//The amount of time each LED is lit in the IDENTICAL order as the array above.
+int timeSequence[tuneLength] =   {
+  q_note, 
+  q_note, 
+  q_note, 
+  q_note, 
+  q_note, 
+  q_note, 
+  q_note, 
+  q_note, 
+  q_note, 
+  h_note, 
+  q_note, 
+  h_note, 
+  q_note, 
+  h_note, 
+  q_note, 
+  h_note, 
+  q_note, 
+  h_note, 
+  q_note,
+  q_note,
+  q_note,
+  q_note};
+  
+  //------------------------------------------------------- END NEW
+
+
+//Step 3 - Setup Loop
+void setup() {
+  Serial.begin(9600);
+  //see, doesn't start at 1... defining LED pins at outputs.
+  for (int l = 9; l <= 13 ; l++) {
+    pinMode(l, OUTPUT);
+  }
+}
+
+
+void loop() {      
+
+  //No environment to look at
+  
+  //Play the tune. Notice that the length is compared to variable tuneLength.
+  for (int b = 0;  b < tuneLength ; b ++) {
+    //light the number pin equal to the value retrieved from the array...
+    digitalWrite(ledSequence[b], HIGH);
+    //for the amount of time of the value retrieved from the array
+    delay(timeSequence[b]);
+    digitalWrite(ledSequence[b], LOW);
+  }
+
+} 
+
+
+//--------------------------------------------------------------- END MAIN LOOP
+
+
+
+
+
+
+
+
+

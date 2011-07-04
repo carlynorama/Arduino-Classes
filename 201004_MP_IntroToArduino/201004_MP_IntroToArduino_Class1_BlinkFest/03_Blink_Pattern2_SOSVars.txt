@@ -1,0 +1,86 @@
+/*
+ * SOS Blink
+ * This code will blink out the Morse Code for S.O.S. repeatedly
+ *
+ * Created by Carlyn Maw
+ * December 2009
+ *
+ * CopyLeft - Non-Comerical Use with Attribution
+ */
+
+int ledPin = 13;
+int dit = 10;
+int dah = 3*dit;
+int letterSpace = dit; 
+int wordSpace = 7*dit;
+
+
+void setup()                    // run once, when the sketch starts
+{
+  pinMode(ledPin, OUTPUT);      // sets the digital pin as output
+}
+
+void loop()                     // run over and over again
+{
+  ///------------------------------------------------- S
+  digitalWrite(ledPin, HIGH);   // sets the LED on
+  delay(dah);                  // waits for a second
+  
+  digitalWrite(ledPin, LOW);    // sets the LED off
+  delay(dit);                  // waits for a second
+  
+  digitalWrite(ledPin, HIGH);   // sets the LED on
+  delay(dah);                  // waits for a second
+  
+  digitalWrite(ledPin, LOW);    // sets the LED off
+  delay(dit);                  // waits for a second
+  
+  digitalWrite(ledPin, HIGH);   // sets the LED on
+  delay(dah);                  // waits for a second
+  
+  
+  digitalWrite(ledPin, LOW);    // sets the LED off
+  delay(letterSpace);                  // waits for a second
+  
+  ///------------------------------------------------- O
+  digitalWrite(ledPin, HIGH);   // sets the LED on
+  delay(dit);                  // waits for a second
+  
+  digitalWrite(ledPin, LOW);    // sets the LED off
+  delay(dit);               // waits for a second
+
+  digitalWrite(ledPin, HIGH);   // sets the LED on
+  delay(dit);                  // waits for a second
+  
+  digitalWrite(ledPin, LOW);    // sets the LED off
+  delay(dit);               // waits for a second  
+  
+  digitalWrite(ledPin, HIGH);   // sets the LED on
+  delay(dit);                  // waits for a second
+  
+  digitalWrite(ledPin, LOW);    // sets the LED off
+  delay(letterSpace);               // waits for a second 
+  
+  ///------------------------------------------------- S
+  digitalWrite(ledPin, HIGH);    // sets the LED off
+  delay(dah);                  // waits for a second
+  
+  digitalWrite(ledPin, LOW);    // sets the LED off
+  delay(dit);                  // waits for a second
+  
+  digitalWrite(ledPin, HIGH);   // sets the LED on
+  delay(dah);                  // waits for a second
+  
+  digitalWrite(ledPin, LOW);    // sets the LED off
+  delay(dit);                  // waits for a second
+  
+  digitalWrite(ledPin, HIGH);   // sets the LED on
+  delay(letterSpace);                  // waits for a second
+  
+  ///------------------------------------------------- PAUSE
+  digitalWrite(ledPin, LOW);    // sets the LED off
+  delay(wordSpace);                  // waits for a second
+  
+  
+}
+

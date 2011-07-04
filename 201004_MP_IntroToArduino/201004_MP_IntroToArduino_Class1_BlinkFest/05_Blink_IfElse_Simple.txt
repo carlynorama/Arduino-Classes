@@ -1,0 +1,31 @@
+/*
+ * Blink ing with If/Else
+ *
+ * Created by Carlyn Maw based on code by everybody else who's come before.
+ * April 2010
+ *
+ */
+
+int ledPin = 13;
+int ledState = 0;
+
+void setup() {
+    pinMode(ledPin, OUTPUT);
+    digitalWrite(ledPin, LOW);
+}
+
+void loop() {
+
+if (ledState == HIGH) {
+  ledState = LOW;
+} else {
+  ledState = HIGH;  
+}
+
+ digitalWrite(ledPin,ledState);
+
+ delay(1000);
+  
+}
+
+

@@ -1,0 +1,71 @@
+/*
+Code for The Intro To Arduino Class Two 
+
+ April 8 2010
+ Carlyn Maw
+
+ Button Code: When the Button is On an LED is on, 
+ The toggle swtich determines which one. Uses seperate if Statements
+ 
+ */
+//STEP 1  Define Pins
+//Pin Constants
+const int pushButtonPin = 2;   //the push button
+const int toggleButtonPin = 3; // The Switch 
+const int ledPinOne = 11;    // the green LED
+const int ledPinTwo = 12;    // the red LED
+
+//Step 2 Holders for things being tracked
+//State Holder Constants for inputs
+int pushButtonState = 0;
+int toggleButtonState = 0;
+
+//Step 5 - have variables which know which LED you've picked
+//LED Holders
+int currentLED;               //-----------------------NEW
+int otherLED;                 //-----------------------NEW
+
+
+void setup() {
+  //Step 3  set pin modes
+  pinMode(pushButtonPin, INPUT);
+  pinMode(toggleButtonPin, INPUT);
+  pinMode(ledPinOne, OUTPUT);
+  pinMode(ledPinTwo, OUTPUT);
+
+}
+
+void loop() {
+
+  //Step 4 Get your inputs
+  pushButtonState = digitalRead(pushButtonPin);
+  toggleButtonState = digitalRead(toggleButtonPin);
+
+  //Step 6: Evaluate the toggle switch and pick your LED
+  
+  //---------------------------------------- MOVED
+    if (toggleButtonState == true) {
+          currentLED = ledPinOne; //-----CHANGED/NEW
+          otherLED = ledPinTwo;   //-----CHANGED/NEW
+    } else {
+          currentLED = ledPinTwo; //-----CHANGED/NEW
+          otherLED = ledPinOne;   //-----CHANGED/NEW
+    }
+ //----------------------------------------  END MOVED
+
+
+  //Step 6: Evaluate the push button and light the selected LED
+
+  if (pushButtonState == true) { 
+       digitalWrite(currentLED, HIGH); //-----CHANGED/NEW
+       digitalWrite(otherLED, LOW);    //-----CHANGED/NEW
+  } 
+  else {
+    // turn everybody off
+    digitalWrite(ledPinOne, LOW);
+    digitalWrite(ledPinTwo, LOW);
+  }
+}
+
+
+

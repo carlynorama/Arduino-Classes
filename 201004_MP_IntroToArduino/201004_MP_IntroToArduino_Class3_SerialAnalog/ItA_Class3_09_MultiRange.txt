@@ -1,0 +1,79 @@
+/*
+Intro to Arduino @ Machine Project April 2010
+Carlyn Maw
+
+Light different LEDs in progression depending on sensor value. "Non-linear" mapping
+because the intervals are not uniform. 
+*/
+
+//Step 1 Define Pins
+const int analogReadPin = 0;
+const int ledPinOne = 10;
+const int ledPinTwo = 11;
+const int ledPinThree = 12; // ------ new LED in the house.
+//-------------------  No buttons
+
+//Step 2 - value holders
+int sensorValue = 0; 
+int rangedSensorValue = 0; // new value holder. replaces "blinkOnPeriod" as a holder for
+                           // a manipulated sensor value.
+
+//Step 3 - Setup Loop
+void setup() {
+  Serial.begin(9600);
+  pinMode(ledPinOne, OUTPUT);
+  pinMode(ledPinTwo, OUTPUT);
+  pinMode(ledPinThree, OUTPUT);
+
+
+}
+
+
+void loop() {      
+
+  //Poll the environment
+  sensorValue = analogRead(analogReadPin);
+
+  //Do something about it. 
+
+  rangedSensorValue = map(sensorValue, 0, 1023 , 0, 600); // Values for potentiometer
+  //Serial.println(rangedSensorValue);
+  
+  //You will see examples that uses the map function to break sensordata into
+  //even pieces. i.e. map(sensorValue, 0, 1023 , 0, 4), where you can then use
+  //something called a case statement to determine what to do. Doing it by hand
+  //allows you to have a more customized control of your partions. 
+
+  if (rangedSensorValue > 500) {
+    Serial.println("--------------|");
+    digitalWrite(ledPinOne, HIGH);
+    digitalWrite(ledPinTwo, HIGH);
+    digitalWrite(ledPinThree, HIGH);
+  } 
+  else if (rangedSensorValue <= 500 && rangedSensorValue >= 350 ) {
+    Serial.println("--------|");
+    digitalWrite(ledPinOne, HIGH);
+    digitalWrite(ledPinTwo, HIGH);
+    digitalWrite(ledPinThree, LOW);
+  } 
+  else if (rangedSensorValue < 350 && rangedSensorValue >= 50 ) {
+    Serial.println("--|");
+    digitalWrite(ledPinOne, HIGH);
+    digitalWrite(ledPinTwo, LOW);
+    digitalWrite(ledPinThree, LOW);
+  } else if (rangedSensorValue < 50) {  // off
+    //Serial.println("|");
+    digitalWrite(ledPinOne, LOW);
+    digitalWrite(ledPinTwo, LOW);
+    digitalWrite(ledPinThree, LOW);
+  }
+
+} 
+
+
+//--------------------------------------------------------------- END MAIN LOOP
+
+
+
+
+

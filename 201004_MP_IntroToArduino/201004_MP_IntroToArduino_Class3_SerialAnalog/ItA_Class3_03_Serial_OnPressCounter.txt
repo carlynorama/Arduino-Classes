@@ -1,0 +1,49 @@
+/*
+Intro to Arduino @ Machine Project April 2010
+Carlyn Maw
+
+Sends a serial message when you press a button. 
+The message contains the number of times the button has been pressed. 
+*/
+
+const int pushButtonPin = 2;
+
+int pushButtonState = 0;
+int lastPushButtonState = 0;          
+
+int runFlag = 0;  
+
+int pressCount = 0;
+
+void setup() {
+    pinMode(pushButtonPin, INPUT); 
+    Serial.begin(9600);
+}
+
+void loop() {
+  lastPushButtonState = pushButtonState;  // dumps the buttpn State from the last loop into previous holder
+  pushButtonState = digitalRead(pushButtonPin); // refreshes the button state
+  
+  if (pushButtonState != lastPushButtonState && pushButtonState == true) {
+    delay(50);  // debounce delay needed. 
+    //See Examples > digital > debounce for a better way
+    runFlag ? runFlag=false : runFlag=true;
+    pressCount = pressCount + 1;     //also can be written pressCount ++;
+  } else {
+    runFlag = false;
+  }  
+  
+  if (runFlag == HIGH) {  
+      Serial.print("The button has been pressed ");
+      Serial.print(pressCount);
+      Serial.println(" times.");
+  } 
+  
+  //Always just comment out your debug statements. You may need them later.
+  //else {
+    //Serial.println("Where are you????");
+  //}
+  
+}
+
+

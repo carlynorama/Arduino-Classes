@@ -1,0 +1,41 @@
+/*
+Code for The Intro To Arduino Class Two
+
+ April 8 2010
+ Carlyn Maw
+ 
+ Button COde: The LED will do exactly what the button does
+ Very similar to examples by provided with the Arduino environment
+ 
+ */
+//STEP 1 Define Pins
+//Pin Constants
+const int buttonPin = 2;   //the push button
+const int ledPin = 11;    // the green LED
+
+int buttonState = 0;
+
+
+void setup() {
+  //Step 2  set pin modes
+  pinMode(buttonPin, INPUT);
+  pinMode(ledPin, OUTPUT);
+
+}
+
+void loop() {
+
+  //Step 3 - get the button info
+  buttonState = digitalRead(buttonPin);
+
+  //Step 4 - do something with it.
+  if (buttonState==true) { //conditional statement
+    digitalWrite(ledPin, HIGH);
+  } 
+  else {
+    digitalWrite(ledPin, LOW); //always turn off what you turn on
+  }
+}
+
+
+

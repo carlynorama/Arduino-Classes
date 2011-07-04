@@ -1,0 +1,79 @@
+/*
+ * SOS Blink
+ * This code will blink out the Morse Code for S.O.S. repeatedly
+ *
+ * Created by Carlyn Maw
+ * December 2009
+ *
+ * CopyLeft - Non-Comerical Use with Attribution
+ */
+
+void setup()                    // run once, when the sketch starts
+{
+  pinMode(13, OUTPUT);      // sets the digital pin as output
+}
+
+void loop()                     // run over and over again
+{
+  ///------------------------------------------------- S
+  digitalWrite(13, HIGH);   // sets the LED on
+  delay(900);                  // waits 
+  
+  digitalWrite(13, LOW);    // sets the LED off
+  delay(300);                  // waits 
+  
+  digitalWrite(13, HIGH);   // sets the LED on
+  delay(900);                  // waits 
+  
+  digitalWrite(13, LOW);    // sets the LED off
+  delay(300);                  // waits 
+  
+  digitalWrite(13, HIGH);   // sets the LED on
+  delay(900);                  // waits 
+  
+  
+  digitalWrite(13, LOW);    // sets the LED off
+  delay(900);                  // waits 
+  
+  ///------------------------------------------------- O
+  digitalWrite(13, HIGH);   // sets the LED on
+  delay(300);                  // waits 
+  
+  digitalWrite(13, LOW);    // sets the LED off
+  delay(300);               // waits 
+
+  digitalWrite(13, HIGH);   // sets the LED on
+  delay(300);                  // waits 
+  
+  digitalWrite(13, LOW);    // sets the LED off
+  delay(300);               // waits   
+  
+  digitalWrite(13, HIGH);   // sets the LED on
+  delay(300);                  // waits 
+  
+  digitalWrite(13, LOW);    // sets the LED off
+  delay(900);               // waits  
+  
+  ///------------------------------------------------- S
+  digitalWrite(13, HIGH);    // sets the LED off
+  delay(900);                  // waits 
+  
+  digitalWrite(13, LOW);    // sets the LED off
+  delay(300);                  // waits 
+  
+  digitalWrite(13, HIGH);   // sets the LED on
+  delay(900);                  // waits 
+  
+  digitalWrite(13, LOW);    // sets the LED off
+  delay(300);                  // waits 
+  
+  digitalWrite(13, HIGH);   // sets the LED on
+  delay(900);                  // waits 
+  
+  ///------------------------------------------------- PAUSE
+  digitalWrite(13, LOW);    // sets the LED off
+  delay(2100);                  // waits 
+  
+  
+}
+

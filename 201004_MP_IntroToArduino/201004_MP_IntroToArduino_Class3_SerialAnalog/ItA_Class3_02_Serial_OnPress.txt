@@ -1,0 +1,50 @@
+/*
+Intro to Arduino @ Machine Project April 2010
+Carlyn Maw
+
+Sends a serial message when you press a button. 
+Combines code from class 2 with the example we just did. 
+*/
+
+const int pushButtonPin = 2;
+
+int pushButtonState = 0;
+int lastPushButtonState = 0;          
+
+int runFlag = 0;  
+
+int sendMe = 46;
+
+void setup() {
+    pinMode(pushButtonPin, INPUT); 
+    Serial.begin(9600);
+}
+
+void loop() {
+  lastPushButtonState = pushButtonState;  // dumps the buttpn State from the last loop into previous holder
+  pushButtonState = digitalRead(pushButtonPin); // refreshes the button state
+
+  
+  if (pushButtonState != lastPushButtonState && pushButtonState == true) {
+    runFlag ? runFlag=false : runFlag=true;
+  } else {
+    runFlag = false;
+  }
+  
+  
+  if (runFlag == HIGH) {  
+      Serial.print("The variable sendMe is equal to ");
+      Serial.println(sendMe);
+  } else {
+    // error checking, using the else even though you don't
+    //really care about it can help you understand where the
+    //code is going wrong rather than just "dead air" 
+    //You now know that the program actually made it to the 
+    //if statement and that the runFlag was false. 
+    Serial.println("Where are you????");
+  }
+  
+  
+}
+
+

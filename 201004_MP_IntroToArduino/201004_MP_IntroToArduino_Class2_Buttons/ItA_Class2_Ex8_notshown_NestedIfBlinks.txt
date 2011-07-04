@@ -1,0 +1,112 @@
+/*
+Code for The Intro To Arduino Class Two 
+
+ April 8 2010
+ Carlyn Maw
+
+ Sends a blink out when the button is pressed.
+ Will stop blinking when released b/c it can hear the change now.
+ Will change which LED is blinking when the switch is changed.
+ 
+ */
+
+
+//STEP 1 Define Pins
+//Pin Constants
+const int pushButtonPin = 2;    //the push button
+const int toggleButtonPin = 3;  // ------------- RETURNED
+const int ledPinOne = 11;    // the green LED
+const int ledPinTwo =  12;      // ------------- RETURNED
+
+
+//Step 2 Holders for things being tracked
+//State Holder Constants for inputs
+int pushButtonState = 0;
+int toggleButtonState = 0;        // Returned like in ex. 3
+
+//TIMING VARIABLES
+long lastMillis= 0;
+long currentMillis = 0;
+
+// LED ONE TIMING VARIABLES
+int ledOneOnPeriod = 500;
+int ledOneState;
+long ledOneFlipTime;
+
+// LED TWO TIMING VARIABLES ------------------- ALL NEW
+int ledTwoOnPeriod = 500;
+int ledTwoState;
+long ledTwoFlipTime;
+
+
+void setup() {
+  //Step 3  set pin modes
+  //-------------------------- RETURNED Seitch and second LED
+    pinMode(pushButtonPin, INPUT);
+  pinMode(toggleButtonPin, INPUT);
+  pinMode(ledPinOne, OUTPUT);
+  pinMode(ledPinTwo, OUTPUT);
+
+
+}
+
+void loop() {
+  //Timing check
+  lastMillis = currentMillis; // dumps the time from the last loop into previous holder
+  currentMillis = millis();  // refreshes time constant
+  
+
+  //Step 4 - get the inputs
+  pushButtonState = digitalRead(pushButtonPin);
+    toggleButtonState = digitalRead(toggleButtonPin); //---- Returned like in ex 3
+
+  //Step 5 Evaluate push button state
+  if (pushButtonState == true) { 
+ 
+ 
+    // STEP 6 evaluate swtich state
+    if (toggleButtonState == HIGH) {   //------------- like ex. 3
+      
+      //if toggle is high blink ledOne....
+      if ((ledOneOnPeriod) < (currentMillis- ledOneFlipTime)) {
+        ledOneState ? ledOneState=false : ledOneState=true;
+        ledOneFlipTime = currentMillis;
+        digitalWrite(ledPinOne,ledOneState);
+      }
+      digitalWrite(ledPinOne,ledOneState); //-- MOVED, So LED is always refreshed. 
+    //... and make sure two is off      ------------- also like ex. 3
+    //                          but just setting it low is not enough
+    digitalWrite(ledPinTwo, LOW);
+    ledTwoState = false;
+    ledTwoFlipTime = currentMillis - ledTwoOnPeriod;
+    } 
+    else {
+      //other wise if the toggle switch is lo do 
+      // the opposite of what your just did
+      if ((ledTwoOnPeriod) < (currentMillis- ledTwoFlipTime)) {
+        ledTwoState ? ledTwoState=false : ledTwoState=true;
+        ledTwoFlipTime = currentMillis;
+      }
+    digitalWrite(ledPinTwo,ledTwoState);  // -------------- MOVED (See above)
+    
+    digitalWrite(ledPinOne, LOW);
+    ledOneState = false;
+    ledOneFlipTime = currentMillis - ledOneOnPeriod;
+    }
+
+  } 
+  else {
+    // turn it off and reset everything if push button is LOW
+    digitalWrite(ledPinOne, LOW);
+    ledOneState = false;
+    ledOneFlipTime = currentMillis - ledOneOnPeriod;
+    
+    digitalWrite(ledPinTwo, LOW);    //------------------------ LED TWO OFF is ADDED
+    ledTwoState = false;
+    ledTwoFlipTime = currentMillis - ledTwoOnPeriod;
+  }
+}
+
+
+//-------------------------------------------- END MAIN LOOP
+

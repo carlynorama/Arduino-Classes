@@ -1,0 +1,72 @@
+/*
+ * Trafiic Light Party
+ * This code will blink a red and then a yellow and 
+ * then a green LED to their own drummers, if those are the color 
+ * LEDS you have wired up
+ *
+ * Created by Carlyn Maw
+ * December 2009
+ *
+ * CopyLeft - Non-Comerical Use with Attribution
+ */
+ 
+long lastMillis= 0;
+long currentMillis = 0;
+
+int redPin = 11;
+int yellowPin = 10;
+int greenPin = 9;
+
+int redOnPeriod = 500;
+int yellowOnPeriod = 600;
+int greenOnPeriod = 1000;
+
+int redLedState;
+int yellowLedState;
+int greenLedState;
+
+
+long redFlipTime;
+long yellowFlipTime;
+long greenFlipTime;
+
+
+
+void setup()                    // run once, when the sketch starts
+{
+  pinMode(redPin, OUTPUT);      // sets the digital pin as output
+  pinMode(yellowPin, OUTPUT);      // sets the digital pin as output
+  pinMode(greenPin, OUTPUT);      // sets the digital pin as output
+  
+  digitalWrite(redPin, LOW);    // sets the LED off
+  digitalWrite(yellowPin, LOW);    // sets the LED off
+  digitalWrite(greenPin, LOW);    // sets the LED off
+      
+}
+
+void loop()                     // run over and over again
+{
+  lastMillis = currentMillis; // dumps the time from the last loop into previous holder
+  currentMillis = millis();  // refreshes time constant
+  
+  if ((redOnPeriod) < (currentMillis- redFlipTime)) {
+  //ledState = ledState == HIGH ? LOW : HIGH;
+    redLedState ? redLedState=false : redLedState=true;
+    redFlipTime = currentMillis;
+    digitalWrite(redPin,redLedState);
+  }
+  
+    if ((yellowOnPeriod) < (currentMillis- yellowFlipTime)) {
+    yellowLedState ? yellowLedState=false : yellowLedState=true;
+    yellowFlipTime = currentMillis;
+    digitalWrite(yellowPin,yellowLedState);
+  }
+  
+    if ((greenOnPeriod) < (currentMillis- greenFlipTime)) {
+    greenLedState ? greenLedState=false : greenLedState=true;
+    greenFlipTime = currentMillis;
+    digitalWrite(greenPin,greenLedState);
+  }
+  
+}
+

@@ -1,0 +1,110 @@
+/*
+Intro to Arduino @ Machine Project April 2010
+Carlyn Maw
+
+Uses the previous example of a threshold trigger on a sensor and
+the push button code we've written to set the threshold when the 
+button is released. 
+*/
+
+//Step 1 Define Pins
+const int analogReadPin = 0;
+const int pushButtonPin = 2; //------------------ new
+const int ledPinOne = 11;
+const int ledPinTwo = 12;
+
+
+//Step 2 - value holders
+int sensorValue = 0; 
+
+int currentLED = ledPinOne;
+int otherLED = ledPinTwo;
+
+int pushButtonState = 0; //------------------ new
+int lastPushButtonState = 0;  //------------------ new          
+
+int thresholdValue = 900; //------------------ new
+
+//LED TIMING VARIABLES 
+int blinkOnPeriod = 1000;
+int blinkState;
+long blinkFlipTime;
+
+//GENERAL TIMING VARIABLES 
+long lastMillis= 0;
+long currentMillis = 0;
+
+//Step 3 - Setup Loop
+void setup() {
+  Serial.begin(9600);
+  pinMode(ledPinOne, OUTPUT);
+  pinMode(ledPinTwo, OUTPUT);
+}
+
+
+void loop() {      
+  //Step 4 - Check the Time
+  lastMillis = currentMillis; // dumps the time from the last loop into previous holder
+  currentMillis = millis();  // refreshes the time
+
+ 
+  //Step 5 - Poll the environment
+  sensorValue = analogRead(analogReadPin);
+  
+   //Button Save Last & Check New values   ---------------------------------- NEW
+  lastPushButtonState = pushButtonState;  // dumps the buttpn State from the last loop into previous holder
+  pushButtonState = digitalRead(pushButtonPin); // refreshes the button state
+
+
+  //Step 6 - Do something about it. 
+  blinkOnPeriod = map(sensorValue, 0, 1023, 2000, 100); 
+
+  if (pushButtonState == true) {    
+    Serial.print(sensorValue);
+    Serial.print(" is being translated into ");
+    Serial.println(blinkOnPeriod);
+    digitalWrite(ledPinOne, LOW);
+    digitalWrite(ledPinTwo, HIGH);    // ledPinTwo is serving a status light
+  } else {
+
+  if (pushButtonState != lastPushButtonState && pushButtonState == false) {
+    thresholdValue = sensorValue;  // NOW it changes the value - on release.
+    delay(50);  //a little debounce cheat. 
+  }
+
+  if (sensorValue > thresholdValue) { //---------------- changed
+    currentLED = ledPinTwo;
+    otherLED = ledPinOne;
+  } 
+  else {
+    currentLED = ledPinOne;
+    otherLED = ledPinTwo;
+  }
+
+  blinkIt(currentLED, blinkOnPeriod);
+  digitalWrite(otherLED, LOW);
+  }
+
+} 
+
+
+//--------------------------------------------------------------- END MAIN LOOP
+
+
+///----------------------------------------------------------------  BLINK IT.
+
+void blinkIt(int myLED, int myBlinkPeriod) {
+  if ((myBlinkPeriod) < (currentMillis- blinkFlipTime)) {
+    blinkState ? blinkState=false : blinkState=true;
+    blinkFlipTime = currentMillis;       
+  }
+  //(moving this line outside the if is what makes it update every time)
+  digitalWrite(myLED,blinkState); 
+}
+
+
+
+
+
+
+
