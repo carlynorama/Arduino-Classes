@@ -1,6 +1,14 @@
 /* 
  Happy Kitty
  
+ This is a BIG GIANT LEAP from step 5 where our class ended, but it doesn't
+ use anthing super fancy you haven't seen before other than boolean flags.
+ Boolean flags are true/false variable you can use to keep track of 
+ information. Checking a flag with an if-statement can tell your code if
+ it is ready to do certain actions that are dependant on the flag. Just
+ remember, everytime a flag gets set to true, make sure it is also set to
+ false somewhere in your code. Try to follow along. I bet you can do it. 
+ 
  Behavior:
  When the head of the kitty is pet, the LED heart throbs up and down
  a set number of times.
