@@ -14,7 +14,7 @@
  
                      photocell
    _________     ____(/\/\/\)--|5V+
-  |	    |    |
+  |	        |    |
   | Arduino |    |
   |    	  A0|-----         
   |  	    |    |   10k Ohm
@@ -42,6 +42,13 @@ int sensorMax = 1023; //(controls resting brightness)
 int sensorMin = 0;    //(controls active brightness)
 
 //////////////////////////////////////////////////////////////////////
+
+//variables, value determined by the code
+
+int sensorValue = 0;      //officialy can range from 0 to 1023, but ours
+                          //may be in a smaller range
+int ledBrightness = 255   //255 is fully on, 0 is fully off. 
+
 
 // the setup routine runs once when you press reset
 void setup() {
